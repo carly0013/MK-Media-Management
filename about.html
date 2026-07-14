@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About | MK Media Management</title>
+
+  <style>
+    /* ================================
+       THEME VARIABLES
+    ================================= */
+    :root {
+      --bg: #e3efe0;
+      --bg2: #cfe2cb;
+      --bg3: #d4e3d1;
+      --text: #1f2a22;
+      --muted: #5f7063;
+      --green: #5f7f62;
+      --green-dark: #456248;
+      --line: rgba(69, 98, 72, 0.14);
+      --shadow: 0 18px 55px rgba(25, 41, 29, 0.10);
+      --max: 1200px;
+    }
+
+    /* ================================
+       RESET + BASE STYLES
+    ================================= */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: transparent;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .container {
+      width: min(92%, var(--max));
+      margin: 0 auto;
+    }
+
+    /* ================================
+       BUTTONS
+    ================================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 15px 24px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.25s ease,
+                  color 0.25s ease,
+                  transform 0.25s ease,
+                  box-shadow 0.25s ease;
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: #ffffff;
+      box-shadow: 0 10px 28px rgba(69, 98, 72, 0.18);
+    }
+
+    .btn-primary:hover {
+      background: #ffffff;
+      color: var(--green-dark);
+      transform: scale(1.06);
+      box-shadow: 0 12px 30px rgba(69, 98, 72, 0.16);
+    }
+
+    /* ================================
+       ANIMATED BACKGROUND
+    ================================= */
+    .scroll-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      will-change: transform, filter;
+      animation: backgroundDrift 22s ease-in-out infinite alternate;
+      background:
+        radial-gradient(circle at 14% 18%, rgba(255,255,255,0.72), transparent 18%),
+        radial-gradient(circle at 82% 16%, rgba(255,255,255,0.52), transparent 22%),
+        radial-gradient(circle at 52% 42%, rgba(255,255,255,0.26), transparent 28%),
+        radial-gradient(circle at 78% 22%, rgba(47,79,54,0.42), transparent 28%),
+        radial-gradient(circle at 28% 78%, rgba(95,127,98,0.36), transparent 32%),
+        radial-gradient(circle at 72% 70%, rgba(122,156,126,0.28), transparent 24%),
+        radial-gradient(circle at 50% 52%, rgba(62,95,68,0.18), transparent 36%),
+        linear-gradient(to bottom, #edf6ea 0%, #d8e8d4 30%, #bfd5bc 68%, #dbe8d8 100%);
+    }
+
+    @keyframes backgroundDrift {
+      0% {
+        transform: scale(1);
+        filter: saturate(1) brightness(1);
+      }
+
+      50% {
+        transform: scale(1.03);
+        filter: saturate(1.08) brightness(1.03);
+      }
+
+      100% {
+        transform: scale(1.05);
+        filter: saturate(1.12) brightness(1.05);
+      }
+    }
+
+    /* ================================
+       HEADER + NAVIGATION
+    ================================= */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(238, 244, 236, 0.42);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(69, 98, 72, 0.08);
+    }
+
+    .nav {
+      min-height: 78px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo img {
+      height: 64px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    .logo:hover img {
+      transform: scale(1.03);
+      opacity: 0.92;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-links a.nav-contact-btn {
+      background: var(--green);
+      color: #ffffff !important;
+      padding: 15px 24px;
+      border-radius: 999px;
+      box-shadow: 0 10px 28px rgba(69, 98, 72, 0.18);
+      transition: background-color 0.25s ease,
+                  color 0.25s ease,
+                  transform 0.25s ease,
+                  box-shadow 0.25s ease;
+    }
+
+    .nav-links a.nav-contact-btn:hover {
+      background: #ffffff;
+      color: var(--green-dark) !important;
+      transform: scale(1.06);
+      box-shadow: 0 12px 30px rgba(69, 98, 72, 0.16);
+    }
+
+    /* ================================
+       HERO SECTION
+    ================================= */
+    .about-hero {
+      min-height: 88vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding: 70px 0 90px;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .portrait-card {
+      border-radius: 38px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.74);
+      box-shadow: var(--shadow);
+      padding: 10px;
+      transform: rotate(-2deg);
+    }
+
+    .portrait-card img {
+      width: 100%;
+      height: 600px;
+      object-fit: cover;
+      border-radius: 28px;
+      background: #dfeadb;
+    }
+
+    h1 {
+      font-size: clamp(3.6rem, 8vw, 7rem);
+      line-height: 0.88;
+      letter-spacing: -0.075em;
+      color: var(--green-dark);
+      margin-bottom: 22px;
+    }
+
+    .about-copy {
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 1.12rem;
+      margin-bottom: 28px;
+    }
+
+    /* ================================
+       DETAIL STORY SECTION
+    ================================= */
+    .detail-section {
+      padding: 80px 0 130px;
+    }
+
+    .centered-story-layout {
+      position: relative;
+      min-height: 850px;
+      display: grid;
+      place-items: center;
+    }
+
+    .detail-copy.centered {
+      position: relative;
+      z-index: 5;
+      max-width: 640px;
+      padding: 44px;
+      border-radius: 36px;
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(255,255,255,0.5);
+      box-shadow: var(--shadow);
+    }
+
+    .detail-copy.centered h2 {
+      font-size: clamp(2.1rem, 4.5vw, 4rem);
+      line-height: 0.94;
+      letter-spacing: -0.055em;
+      margin-bottom: 18px;
+      color: var(--green-dark);
+    }
+
+    .detail-copy.centered p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 16px;
+    }
+
+    .story-img {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      width: 250px;
+      height: 320px;
+      border-radius: 38px;
+      background: #f4f8f2;
+      border: 1px solid rgba(69,98,72,0.12);
+      box-shadow: var(--shadow);
+      color: var(--muted);
+      font-weight: 700;
+      z-index: 2;
+    }
+
+    .story-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .story-img-1 {
+      left: -20px;
+      top: 110px;
+    }
+
+    .story-img-2 {
+      right: -20px;
+      top: 110px;
+    }
+
+    .story-img-3 {
+      left: -20px;
+      bottom: 110px;
+    }
+
+    .story-img-4 {
+      right: -20px;
+      bottom: 110px;
+    }
+
+    /* ================================
+       MISSION STATEMENT
+    ================================= */
+    .mission-section {
+      padding: 140px 0 120px;
+      text-align: center;
+      position: relative;
+    }
+
+    .mission-text {
+      font-size: clamp(3.5rem, 9vw, 7rem);
+      line-height: 0.9;
+      letter-spacing: -0.06em;
+      font-weight: 900;
+    }
+
+    .mission-text span {
+      display: block;
+      color: var(--green-dark);
+      transition: transform 0.5s ease, opacity 0.5s ease;
+    }
+
+    .mission-text span:nth-child(1) {
+      transform: translateY(40px);
+      opacity: 0;
+    }
+
+    .mission-text span:nth-child(2) {
+      transform: translateY(60px);
+      opacity: 0;
+    }
+
+    .mission-text span:nth-child(3) {
+      transform: translateY(80px);
+      opacity: 0;
+    }
+
+    .mission-wrap.visible .mission-text span {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .mission-wrap.visible .mission-text span:nth-child(1) {
+      transition-delay: 0.1s;
+    }
+
+    .mission-wrap.visible .mission-text span:nth-child(2) {
+      transition-delay: 0.25s;
+    }
+
+    .mission-wrap.visible .mission-text span:nth-child(3) {
+      transition-delay: 0.4s;
+    }
+
+    /* ================================
+       FOOTER
+    ================================= */
+    footer {
+      padding: 30px 0 50px;
+      border-top: 1px solid rgba(69,98,72,0.08);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+    }
+
+    /* ================================
+       REVEAL ANIMATION
+    ================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(55px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ================================
+       RESPONSIVE STYLES
+    ================================= */
+    @media (max-width: 980px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .portrait-card img {
+        height: 480px;
+      }
+
+      .centered-story-layout {
+        min-height: auto;
+        display: grid;
+        gap: 20px;
+      }
+
+      .detail-copy.centered,
+      .story-img {
+        position: relative;
+        left: auto;
+        right: auto;
+        top: auto;
+        bottom: auto;
+        width: 100%;
+      }
+
+      .story-img {
+        height: 260px;
+        border-radius: 32px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 14px 0;
+      }
+
+      .about-hero {
+        min-height: auto;
+        padding-top: 46px;
+      }
+
+      h1 {
+        font-size: 3.6rem;
+      }
+
+      .detail-copy.centered {
+        padding: 28px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="scroll-bg" id="scrollBg"></div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container nav">
+      <a href="index.html" class="logo">
+        <img src="images/mk-logo.png" alt="MK Media Management Logo">
+      </a>
+
+      <nav class="nav-links">
+        <a href="about.html">About</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#stats">Results</a>
+        <a href="index.html#services">Services</a>
+        <a href="contact.html" class="nav-contact-btn">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="about-hero">
+    <div class="container hero-grid">
+      <div class="portrait-card reveal">
+        <img src="images/about-portrait.jpg" alt="Portrait of Meghan Knaple" />
+      </div>
+
+      <div class="reveal">
+        <h1>
+          Built with passion,<br>
+          designed&nbsp;with intention.
+        </h1>
+
+        <p class="about-copy">
+          What started as a passion project quickly evolved into a career, rooted in creativity, connection, and community. Meghan Knaple discovered early on that impactful storytelling could do more than raise awareness. It could drive action. That realization led her into the media marketing world, where her talent for visual branding and organic growth found a natural home.
+        </p>
+
+        <a href="contact.html" class="btn btn-primary">Work With Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- DETAIL STORY -->
+  <section class="detail-section">
+    <div class="container centered-story-layout">
+      <div class="story-img story-img-1 reveal">
+        <img src="images/story-img-01.JPG" width="4000" height="6000" alt="" title="" />
+      </div>
+
+      <div class="story-img story-img-2 reveal">
+        <img src="images/story-img-02.jpg" width="3639" height="5458" alt="" title="" />
+      </div>
+
+      <div class="detail-copy centered reveal">
+        <h2>More about the story behind the brand.</h2>
+        <p>
+          Meghan began her journey rebranding a beloved, locally-owned small business in Brevard County, Florida, and has since expanded her portfolio to include multiple hospitality brands throughout Florida, from the Space Coast to the Gulf Coast. Known for her hands-on approach, Meghan is more than just a content creator; she is the backbone of her brand. From photographing dishes and capturing behind-the-scenes content to designing custom logos, menus, and branded materials, she ensures every visual element reflects the heart of each brand.
+        </p>
+        <p>
+          Using professional-grade equipment and staying ahead of digital trends, Meghan helps brands connect with their audiences in engaging ways. Her focus is on building organic visibility with no shortcuts, just thoughtful strategy and standout visuals that are custom to each brand she works with.
+        </p>
+        <p>
+          She is currently pursuing her Bachelor’s degree in Communication Arts with a minor in Marketing at Florida International University, combining academic insight with real-world experience.
+        </p>
+        <p>
+          If you are looking to transform your brand's online presence with someone who understands the industry, values collaboration, and brings fresh, creative ideas to the table, Meghan Knaple is ready to bring your brand to life.
+        </p>
+      </div>
+
+      <div class="story-img story-img-3 reveal">
+        <img src="images/story-img-03.JPG" width="6000" height="4000" alt="" title="" />
+      </div>
+
+      <div class="story-img story-img-4 reveal">
+        <img src="images/story-img-04.JPG" width="3490" height="5235" alt="" title="" />
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSION STATEMENT -->
+  <section class="mission-section">
+    <div class="container mission-wrap reveal">
+      <h2 class="mission-text">
+        <span>ELEVATE</span>
+        <span>REACH</span>
+        <span>INSPIRE</span>
+      </h2>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-inner">
+      <p>© 2026 MK Media Management. All rights reserved.</p>
+
+      <div class="footer-links">
+        <a href="about.html">About</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#stats">Results</a>
+        <a href="index.html#services">Services</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const reveals = document.querySelectorAll(".reveal");
+    const scrollBg = document.getElementById("scrollBg");
+
+    function revealOnScroll() {
+      const trigger = window.innerHeight * 0.88;
+
+      reveals.forEach((item) => {
+        const rect = item.getBoundingClientRect();
+
+        if (rect.top < trigger) {
+          item.classList.add("visible");
+        }
+      });
+    }
+
+    function animateBackground() {
+      const y = window.scrollY;
+
+      const x1 = 14 + Math.sin(y * 0.0022) * 10;
+      const y1 = 18 + Math.cos(y * 0.0022) * 8;
+      const x2 = 82 + Math.cos(y * 0.0017) * 12;
+      const y2 = 16 + Math.sin(y * 0.0017) * 10;
+      const x3 = 52 + Math.sin(y * 0.0012) * 8;
+      const y3 = 42 + Math.cos(y * 0.0012) * 8;
+      const x4 = 78 + Math.cos(y * 0.0015) * 14;
+      const y4 = 22 + Math.sin(y * 0.0015) * 12;
+      const x5 = 28 + Math.sin(y * 0.0014) * 16;
+      const y5 = 78 + Math.cos(y * 0.0014) * 14;
+
+      if (scrollBg) {
+        scrollBg.style.background = `
+          radial-gradient(circle at ${x1}% ${y1}%, rgba(255,255,255,0.72), transparent 18%),
+          radial-gradient(circle at ${x2}% ${y2}%, rgba(255,255,255,0.52), transparent 22%),
+          radial-gradient(circle at ${x3}% ${y3}%, rgba(255,255,255,0.26), transparent 28%),
+          radial-gradient(circle at ${x4}% ${y4}%, rgba(47,79,54,0.42), transparent 28%),
+          radial-gradient(circle at ${x5}% ${y5}%, rgba(95,127,98,0.36), transparent 32%),
+          radial-gradient(circle at 72% 70%, rgba(122,156,126,0.28), transparent 24%),
+          radial-gradient(circle at 50% 52%, rgba(62,95,68,0.18), transparent 36%),
+          linear-gradient(to bottom, #edf6ea 0%, #d8e8d4 30%, #bfd5bc 68%, #dbe8d8 100%)
+        `;
+      }
+    }
+
+    function handleScroll() {
+      revealOnScroll();
+      animateBackground();
+    }
+
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("load", handleScroll);
+  </script>
+</body>
+</html>

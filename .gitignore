@@ -1,0 +1,45 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Temporary editor files
+~*
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak
+*.backup
+*.orig
+
+# Environment and private configuration
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local editor settings
+.vscode/
+.idea/
+
+# Local Netlify files
+.netlify/
+netlify/.cache/
+
+# Dependencies
+node_modules/
+
+# Build/cache folders
+dist/
+build/
+.cache/
+
+# Windows system files
+Thumbs.db
+Desktop.ini
