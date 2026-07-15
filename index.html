@@ -99,6 +99,17 @@
       color: var(--green-dark);
     }
 
+    .decorative-background-type {
+      font-family: "Arial Black", Arial, Helvetica, sans-serif;
+      font-weight: 900;
+      line-height: 0.86;
+      letter-spacing: -0.045em;
+      text-transform: uppercase;
+      color: rgba(69, 98, 72, 0.06);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
+    }
+
     .section-subtitle {
       max-width: 720px;
       color: var(--muted);
@@ -215,6 +226,13 @@
       gap: 20px;
     }
 
+    .nav-page-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
     .nav-links a {
       font-weight: 600;
       color: var(--muted);
@@ -250,14 +268,12 @@
     }
 
     .hero-bg-word {
+      --word-offset: 0px;
       position: absolute;
       left: 30%;
       top: 60%;
-      transform: translateX(-50%);
+      transform: translate3d(calc(-50% + var(--word-offset)), 0, 0);
       font-size: clamp(5rem, 16vw, 16rem);
-      font-weight: 900;
-      letter-spacing: -0.05em;
-      color: rgba(69, 98, 72, 0.06);
       white-space: nowrap;
       pointer-events: none;
       user-select: none;
@@ -396,6 +412,20 @@
       transition: transform 0.1s linear;
     }
 
+    .orbit-spinner {
+      --orbit-rotation: 0deg;
+      position: absolute;
+      inset: 0;
+      transform-origin: center;
+      transform: translateZ(0) rotate(0deg);
+      transition: none;
+      will-change: transform;
+    }
+
+    .hero-orbit-front {
+      display: none;
+    }
+
     .orbit-icon {
       position: absolute;
       width: 80px;
@@ -414,6 +444,11 @@
 
     .orbit-icon:hover {
       transform: scale(1.12) translateY(-2px);
+    }
+
+    .hero-orbit .orbit-icon i {
+      transform: rotate(calc(-1 * var(--orbit-rotation)));
+      transform-origin: center;
     }
 
     .orbit-icon.ig {
@@ -484,6 +519,7 @@
 
     .phone {
       position: relative;
+      isolation: isolate;
       width: 100%;
       height: 100%;
       padding: 14px;
@@ -494,21 +530,30 @@
       transition: transform 0.18s ease;
     }
 
+    @media (min-width: 761px) {
+      .phone {
+        rotate: 0deg;
+        transform-origin: 50% 50%;
+      }
+    }
+
     .phone::before {
       content: "";
       position: absolute;
       top: 8px;
       left: 50%;
-      z-index: 3;
+      z-index: 10;
       width: 110px;
       height: 22px;
       border-radius: 0 0 18px 18px;
       background: #0a0d0b;
-      transform: translateX(-50%);
+      pointer-events: none;
+      transform: translate3d(-50%, 0, 1px);
     }
 
     .phone-screen {
       position: relative;
+      z-index: 1;
       width: 100%;
       height: 100%;
       overflow: hidden;
@@ -517,6 +562,8 @@
     }
 
     .phone-screen video {
+      position: relative;
+      z-index: 1;
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -526,6 +573,7 @@
     .screen-ui {
       position: absolute;
       inset: 0;
+      z-index: 2;
       background: linear-gradient(to bottom, rgba(255, 255, 255, 0.16), transparent 22%), linear-gradient(to top, rgba(0, 0, 0, 0.16), transparent 24%);
       pointer-events: none;
     }
@@ -590,6 +638,10 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 18px;
+    }
+
+    .projects-carousel-indicator {
+      display: none;
     }
 
     .project-card {
@@ -764,10 +816,27 @@
       font-weight: 900;
     }
 
-    .service-card h3 {
+    .service-toggle {
+      width: 100%;
+      display: block;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      text-align: left;
+    }
+
+    .service-title {
+      display: block;
       margin-bottom: 12px;
       font-size: 1.1rem;
+      font-weight: 700;
       color: var(--green-dark);
+    }
+
+    .service-toggle-icon {
+      display: none;
     }
 
     .service-card p {
@@ -911,16 +980,6 @@
         min-height: 560px;
       }
 
-      .hero-orbit {
-        width: 360px;
-        height: 360px;
-      }
-
-      .phone-stage {
-        width: 280px;
-        height: 560px;
-      }
-
       .projects-grid,
       .results-metrics,
       .results-grid,
@@ -936,6 +995,463 @@
         padding: 56px 0;
       }
     }
+
+    @media (max-width: 760px) {
+      .nav {
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas:
+          "logo contact"
+          "links links";
+        align-items: center;
+        gap: 8px 12px;
+        padding: 10px 0 11px;
+      }
+
+      .logo {
+        grid-area: logo;
+        min-width: 0;
+        width: clamp(175px, 44vw, 190px);
+        justify-self: start;
+      }
+
+      .logo img {
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+      }
+
+      .nav-links {
+        display: contents;
+      }
+
+      .nav-page-links {
+        grid-area: links;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: clamp(8px, 2vw, 14px);
+      }
+
+      .nav-page-links a {
+        font-size: clamp(0.78rem, 3.1vw, 0.92rem);
+        white-space: nowrap;
+      }
+
+      .nav-links a.nav-contact-btn {
+        grid-area: contact;
+        height: 46px;
+        min-height: 0;
+        padding: 0 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        white-space: nowrap;
+      }
+
+      .hero {
+        display: block;
+        padding-top: 28px;
+        padding-bottom: 64px;
+      }
+
+      .hero-social-stack {
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        width: auto;
+        margin-bottom: 14px;
+        top: auto;
+      }
+
+      .social-pill,
+      .social-pill:hover {
+        width: 42px;
+        height: 42px;
+        flex: 0 0 42px;
+        gap: 0;
+        transform: none;
+      }
+
+      .social-pill img {
+        width: 26px;
+        height: 26px;
+        flex: 0 0 26px;
+        margin: auto;
+      }
+
+      .social-pill span {
+        display: none;
+      }
+
+      .hero-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+        min-height: 48px;
+        padding: 0 10px;
+        font-size: clamp(0.94rem, 3.7vw, 1rem);
+        white-space: nowrap;
+      }
+
+      .hero-tags {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .hero-tags span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+        padding: 8px 4px;
+        font-size: clamp(0.78rem, 3.2vw, 0.9rem);
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      .hero-orbit {
+        --mobile-orbit-size: min(86vw, 360px);
+        --mobile-orbit-radius: calc(var(--mobile-orbit-size) / 2);
+        --mobile-icon-size: 64px;
+        --mobile-dot-size: 16px;
+        width: var(--mobile-orbit-size);
+        height: var(--mobile-orbit-size);
+        transform: translate3d(-50%, -50%, 0);
+        transition: none;
+        overflow: visible;
+      }
+
+      .orbit-spinner {
+        transition: none;
+      }
+
+      .hero-orbit {
+        z-index: 1;
+      }
+
+      .hero-orbit-front {
+        display: none;
+      }
+
+      .orbit-icon {
+        width: var(--mobile-icon-size);
+        height: var(--mobile-icon-size);
+        font-size: 23px;
+        box-shadow: 0 10px 22px rgba(25, 41, 29, 0.11);
+        transition: box-shadow 0.25s ease;
+      }
+
+      .hero-orbit .orbit-icon,
+      .hero-orbit .orbit-dot {
+        top: 50%;
+        right: auto;
+        bottom: auto;
+        left: 50%;
+        transform:
+          translate(-50%, -50%) rotate(var(--angle)) translateX(var(--mobile-orbit-radius)) rotate(calc(-1 * var(--angle)));
+        transform-origin: center;
+      }
+
+      .hero-orbit .orbit-icon i {
+        transform: rotate(calc(-1 * var(--orbit-rotation)));
+        transform-origin: center;
+      }
+
+      .hero-orbit .orbit-dot {
+        width: var(--mobile-dot-size);
+        height: var(--mobile-dot-size);
+      }
+
+      .orbit-icon:hover,
+      .orbit-icon.ig:hover {
+        transform:
+          translate(-50%, -50%) rotate(var(--angle)) translateX(var(--mobile-orbit-radius)) rotate(calc(-1 * var(--angle)));
+      }
+
+      .hero-orbit .orbit-icon.ig {
+        --angle: 35deg;
+        z-index: 1;
+      }
+
+      .hero-orbit .orbit-icon.tt {
+        --angle: 148deg;
+        z-index: 1;
+      }
+
+      .hero-orbit .orbit-icon.fb {
+        --angle: 295deg;
+        z-index: 1;
+      }
+
+      .hero-orbit .dot1 {
+        --angle: 25deg;
+      }
+
+      .hero-orbit .dot2 {
+        --angle: 70deg;
+      }
+
+      .hero-orbit .dot3 {
+        --angle: 115deg;
+      }
+
+      .hero-orbit .dot4 {
+        --angle: 205deg;
+      }
+
+      .hero-orbit .dot5 {
+        --angle: 250deg;
+      }
+
+      .phone-stage {
+        z-index: 3;
+        width: 252px;
+        height: 504px;
+        transform: translate3d(-50%, -50%, 0);
+        transition: none;
+        will-change: transform;
+      }
+
+      .phone {
+        box-shadow: 0 24px 52px rgba(21, 31, 23, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+        transition: none;
+      }
+
+      .hero-bg-word {
+        position: relative;
+        left: auto;
+        top: auto;
+        z-index: 2;
+        display: block;
+        width: max-content;
+        max-width: none;
+        margin: 16px 0 0;
+        transform: translate3d(var(--word-offset), 0, 0);
+        font-size: clamp(2.5rem, 12vw, 4.5rem);
+        opacity: 1;
+      }
+
+      .story-wrap {
+        order: 1;
+      }
+
+      .story-visual {
+        order: 2;
+      }
+
+      .projects-grid {
+        display: flex;
+        grid-template-columns: none;
+        gap: 16px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding: 0 8vw 8px 0;
+        scrollbar-width: none;
+      }
+
+      .projects-grid::-webkit-scrollbar {
+        display: none;
+      }
+
+      .projects-grid:focus-visible {
+        outline: 2px solid var(--green-dark);
+        outline-offset: 6px;
+      }
+
+      .project-card {
+        flex: 0 0 84vw;
+        width: 84vw;
+        max-width: 360px;
+        height: auto;
+        aspect-ratio: 4 / 5;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+      }
+
+      .project-card video {
+        display: block;
+        object-fit: cover;
+      }
+
+      .project-overlay {
+        right: 10px;
+        bottom: 10px;
+        left: 10px;
+        padding: 12px 13px;
+        border-radius: 14px;
+        font-size: 0.84rem;
+        line-height: 1.35;
+      }
+
+      .projects-carousel-indicator {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 14px;
+        color: var(--green-dark);
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+      }
+
+      .results-metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 32px;
+      }
+
+      .result-metric {
+        min-height: 142px;
+        padding: 22px 14px;
+        border-radius: 24px;
+      }
+
+      .result-metric span {
+        margin-bottom: 8px;
+        font-size: clamp(2rem, 8vw, 2.75rem);
+        letter-spacing: -0.045em;
+      }
+
+      .result-metric p {
+        font-size: 0.9rem;
+        line-height: 1.25;
+      }
+
+      .results-grid {
+        grid-template-columns: 1fr;
+        gap: 22px;
+        margin-top: 34px;
+      }
+
+      .results-card {
+        height: auto;
+        padding: 24px 18px;
+        border-radius: 26px;
+      }
+
+      .results-card h3 {
+        margin-bottom: 18px;
+        font-size: clamp(1.45rem, 7vw, 2rem);
+        line-height: 1;
+      }
+
+      .results-card img {
+        display: block;
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        margin: 0 auto;
+        border-radius: 18px;
+      }
+
+      .results-heading-second-line {
+        display: block;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-top: 28px;
+      }
+
+      .service-card {
+        min-height: 0;
+        padding: 18px 20px;
+        border-radius: 24px;
+      }
+
+      .service-card:hover {
+        transform: none;
+      }
+
+      .service-toggle {
+        min-height: 56px;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 14px;
+        cursor: pointer;
+      }
+
+      .service-toggle:focus-visible {
+        outline: 2px solid var(--green-dark);
+        outline-offset: 6px;
+        border-radius: 18px;
+      }
+
+      .service-icon {
+        width: 56px;
+        height: 56px;
+        margin: 0;
+        border-radius: 18px;
+        font-size: 1rem;
+      }
+
+      .service-title {
+        margin: 0;
+        font-size: clamp(0.98rem, 4vw, 1.08rem);
+        line-height: 1.15;
+      }
+
+      .service-toggle-icon {
+        width: 26px;
+        height: 26px;
+        display: grid;
+        place-items: center;
+        color: var(--green-dark);
+        font-size: 1.55rem;
+        font-weight: 700;
+        line-height: 1;
+        transition: transform 0.22s ease;
+      }
+
+      .service-toggle-icon::before {
+        content: "+";
+      }
+
+      .service-card.is-open .service-toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .service-card.is-open .service-toggle-icon::before {
+        content: "-";
+      }
+
+      .service-panel {
+        display: grid;
+        grid-template-rows: 0fr;
+        opacity: 0;
+        transition: grid-template-rows 0.24s ease, opacity 0.2s ease;
+      }
+
+      .service-card.is-open .service-panel {
+        grid-template-rows: 1fr;
+        opacity: 1;
+      }
+
+      .service-panel-inner {
+        overflow: hidden;
+      }
+
+      .service-panel p {
+        margin-top: 18px;
+        font-size: 0.94rem;
+        line-height: 1.55;
+      }
+    }
   </style>
 </head>
 
@@ -949,10 +1465,12 @@
       </a>
 
       <nav class="nav-links" aria-label="Main navigation">
-        <a href="about.html">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#stats">Results</a>
-        <a href="#services">Services</a>
+        <div class="nav-page-links">
+          <a href="about.html">About</a>
+          <a href="#projects">Projects</a>
+          <a href="#stats">Results</a>
+          <a href="#services">Services</a>
+        </div>
         <a href="contact.html" class="btn btn-primary nav-contact-btn">Contact</a>
       </nav>
     </div>
@@ -960,8 +1478,6 @@
 
   <main>
     <section class="hero">
-      <div class="hero-bg-word">ELEVATE • REACH • INSPIRE • ELEVATE •</div>
-
       <div class="container">
         <div class="hero-grid">
           <div class="hero-left">
@@ -985,7 +1501,7 @@
               </a>
             </div>
 
-            <span class="eyebrow">Social Media & Content Creation</span>
+            <span class="eyebrow">Social Media Management & Content Creation</span>
             <h1>LET'S<br />GET<br />SOCIAL.</h1>
             <p>Everything your business needs to present itself professionally and consistently online.</p>
 
@@ -1003,15 +1519,17 @@
 
           <div class="hero-right">
             <div class="hero-orbit" id="heroOrbit">
-              <div class="orbit-icon ig"><i class="fa-solid fa-heart"></i></div>
-              <div class="orbit-icon tt"><i class="fa-solid fa-comment"></i></div>
-              <div class="orbit-icon fb"><i class="fa-solid fa-retweet"></i></div>
+              <div class="orbit-spinner">
+                <div class="orbit-icon ig"><i class="fa-solid fa-heart"></i></div>
+                <div class="orbit-icon tt"><i class="fa-solid fa-comment"></i></div>
+                <div class="orbit-icon fb"><i class="fa-solid fa-retweet"></i></div>
 
-              <span class="orbit-dot dot1"></span>
-              <span class="orbit-dot dot2"></span>
-              <span class="orbit-dot dot3"></span>
-              <span class="orbit-dot dot4"></span>
-              <span class="orbit-dot dot5"></span>
+                <span class="orbit-dot dot1"></span>
+                <span class="orbit-dot dot2"></span>
+                <span class="orbit-dot dot3"></span>
+                <span class="orbit-dot dot4"></span>
+                <span class="orbit-dot dot5"></span>
+              </div>
             </div>
 
             <div class="phone-stage" id="phoneStage">
@@ -1024,9 +1542,12 @@
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
+
+      <div class="hero-bg-word decorative-background-type">ELEVATE • REACH • INSPIRE • ELEVATE •</div>
     </section>
 
     <section class="story-section">
@@ -1052,7 +1573,7 @@
       <div class="container">
         <h2 class="section-title reveal">Recent projects.</h2>
 
-        <div class="projects-grid">
+        <div class="projects-grid" aria-label="Recent projects" tabindex="0">
           <div class="project-card reveal">
             <video autoplay muted loop playsinline>
               <source src="videos/index-project-01.mov" type="video/mp4" />
@@ -1096,12 +1617,19 @@
             </div>
           </div>
         </div>
+
+        <div class="projects-carousel-indicator" aria-live="polite" aria-atomic="true">
+          <span id="projectCarouselCurrent">1</span>&nbsp;/&nbsp;<span>4</span>
+        </div>
       </div>
     </section>
 
     <section id="stats" class="section results-section">
       <div class="container">
-        <h2 class="section-title reveal">Real numbers. Real growth.</h2>
+        <h2 class="section-title results-heading reveal">
+          <span>Real numbers.</span>
+          <span class="results-heading-second-line">Real growth.</span>
+        </h2>
         <p class="section-subtitle reveal">
           A brief snapshot of real analytics, including performance, reach, engagement, and visibility across recent
           client content.
@@ -1148,57 +1676,115 @@
         <h2 class="section-title reveal">Services designed to make your brand feel more intentional.</h2>
 
         <div class="services-grid">
-          <div class="service-card reveal">
-            <div class="service-icon">01</div>
-            <h3>Social Media Management</h3>
-            <p>Monthly planning, posting, captions, scheduling, quarterly insights, and a more cohesive content system.
-            </p>
+          <div class="service-card reveal is-open">
+            <button class="service-toggle" type="button" aria-expanded="true" aria-controls="service-panel-01">
+              <span class="service-icon">01</span>
+              <span class="service-title">Social Media Management</span>
+              <span class="service-toggle-icon" aria-hidden="true"></span>
+            </button>
+            <div class="service-panel" id="service-panel-01">
+              <div class="service-panel-inner">
+                <p>Monthly planning, posting, captions, scheduling, quarterly insights, and a more cohesive content
+                  system.</p>
+              </div>
+            </div>
           </div>
 
           <div class="service-card reveal">
-            <div class="service-icon">02</div>
-            <h3>Photography</h3>
-            <p>Polished, professional imagery designed to elevate your online presence and seamlessly enhance your
-              menus, posters, and website features.</p>
+            <button class="service-toggle" type="button" aria-expanded="false" aria-controls="service-panel-02">
+              <span class="service-icon">02</span>
+              <span class="service-title">Photography</span>
+              <span class="service-toggle-icon" aria-hidden="true"></span>
+            </button>
+            <div class="service-panel" id="service-panel-02">
+              <div class="service-panel-inner">
+                <p>Polished, professional imagery designed to elevate your online presence and seamlessly enhance your
+                  menus, posters, and website features.</p>
+              </div>
+            </div>
           </div>
 
           <div class="service-card reveal">
-            <div class="service-icon">03</div>
-            <h3>Videography</h3>
-            <p>Short-form and long-form content and behind-the-scenes footage designed for modern social platforms.</p>
+            <button class="service-toggle" type="button" aria-expanded="false" aria-controls="service-panel-03">
+              <span class="service-icon">03</span>
+              <span class="service-title">Videography</span>
+              <span class="service-toggle-icon" aria-hidden="true"></span>
+            </button>
+            <div class="service-panel" id="service-panel-03">
+              <div class="service-panel-inner">
+                <p>Short-form and long-form content and behind-the-scenes footage designed for modern social platforms.
+                </p>
+              </div>
+            </div>
           </div>
 
           <div class="service-card reveal">
-            <div class="service-icon">04</div>
-            <h3>Ad Management</h3>
-            <p>Strategic campaign setup and audience targeting designed to help your brand reach the right people.</p>
+            <button class="service-toggle" type="button" aria-expanded="false" aria-controls="service-panel-04">
+              <span class="service-icon">04</span>
+              <span class="service-title">Ad Management</span>
+              <span class="service-toggle-icon" aria-hidden="true"></span>
+            </button>
+            <div class="service-panel" id="service-panel-04">
+              <div class="service-panel-inner">
+                <p>Strategic campaign setup and audience targeting designed to help your brand reach the right people.
+                </p>
+              </div>
+            </div>
           </div>
 
           <div class="service-card reveal">
-            <div class="service-icon">05</div>
-            <h3>Logo Design</h3>
-            <p>Custom logo creation designed to give your business a polished, recognizable visual identity.</p>
+            <button class="service-toggle" type="button" aria-expanded="false" aria-controls="service-panel-05">
+              <span class="service-icon">05</span>
+              <span class="service-title">Logo Design</span>
+              <span class="service-toggle-icon" aria-hidden="true"></span>
+            </button>
+            <div class="service-panel" id="service-panel-05">
+              <div class="service-panel-inner">
+                <p>Custom logo creation designed to give your business a polished, recognizable visual identity.</p>
+              </div>
+            </div>
           </div>
 
           <div class="service-card reveal">
-            <div class="service-icon">06</div>
-            <h3>Website Design</h3>
-            <p>Custom and clean websites built to showcase your services, strengthen credibility, and stay current
-              through ongoing maintenance and updates as your business evolves.</p>
+            <button class="service-toggle" type="button" aria-expanded="false" aria-controls="service-panel-06">
+              <span class="service-icon">06</span>
+              <span class="service-title">Website Design</span>
+              <span class="service-toggle-icon" aria-hidden="true"></span>
+            </button>
+            <div class="service-panel" id="service-panel-06">
+              <div class="service-panel-inner">
+                <p>Custom and clean websites built to showcase your services, strengthen credibility, and stay current
+                  through ongoing maintenance and updates as your business evolves.</p>
+              </div>
+            </div>
           </div>
 
           <div class="service-card reveal">
-            <div class="service-icon">07</div>
-            <h3>Event Media Production</h3>
-            <p>Photo and video coverage for launches, events, and brand moments that deserve professional, shareable
-              content.</p>
+            <button class="service-toggle" type="button" aria-expanded="false" aria-controls="service-panel-07">
+              <span class="service-icon">07</span>
+              <span class="service-title">Event Media Production</span>
+              <span class="service-toggle-icon" aria-hidden="true"></span>
+            </button>
+            <div class="service-panel" id="service-panel-07">
+              <div class="service-panel-inner">
+                <p>Photo and video coverage for launches, events, and brand moments that deserve professional, shareable
+                  content.</p>
+              </div>
+            </div>
           </div>
 
           <div class="service-card reveal">
-            <div class="service-icon">08</div>
-            <h3>Brand Refresh</h3>
-            <p>Rework your brand’s visual identity and positioning to better connect with today’s audience and stand out
-              in a competitive space.</p>
+            <button class="service-toggle" type="button" aria-expanded="false" aria-controls="service-panel-08">
+              <span class="service-icon">08</span>
+              <span class="service-title">Brand Refresh</span>
+              <span class="service-toggle-icon" aria-hidden="true"></span>
+            </button>
+            <div class="service-panel" id="service-panel-08">
+              <div class="service-panel-inner">
+                <p>Rework your brand’s visual identity and positioning to better connect with today’s audience and stand
+                  out in a competitive space.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1235,15 +1821,29 @@
 
   <script>
     const scrollBg = document.getElementById("scrollBg");
-    const orbit = document.getElementById("heroOrbit");
     const phoneStage = document.getElementById("phoneStage");
     const phoneCard = document.getElementById("phoneCard");
+    const orbitRotators = document.querySelectorAll(".orbit-spinner");
     const reveals = document.querySelectorAll(".reveal");
     const heroBgWord = document.querySelector(".hero-bg-word");
+    const heroRight = document.querySelector(".hero-right");
+    const projectsCarousel = document.querySelector(".projects-grid");
+    const projectCards = projectsCarousel ? Array.from(projectsCarousel.querySelectorAll(".project-card")) : [];
+    const projectCarouselCurrent = document.getElementById("projectCarouselCurrent");
+    const serviceCards = Array.from(document.querySelectorAll(".service-card"));
+    const mobileQuery = window.matchMedia("(max-width: 760px)");
+    const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const ORBIT_ROTATION_DEGREES = 180;
 
-    function animateBackground() {
-      const y = window.scrollY;
+    let latestScrollY = window.scrollY;
+    let scrollFrame = null;
+    let isMobileViewport = mobileQuery.matches;
+    let reduceMotion = reduceMotionQuery.matches;
+    let orbitGeometry = { start: 0, distance: 1 };
+    let marqueeGeometry = { start: 0, distance: 1, maxTravel: 0 };
+    let projectScrollFrame = null;
 
+    function animateBackground(y) {
       const x1 = 14 + Math.sin(y * 0.0022) * 10;
       const y1 = 18 + Math.cos(y * 0.0022) * 8;
       const x2 = 82 + Math.cos(y * 0.0017) * 12;
@@ -1269,17 +1869,121 @@
       }
     }
 
-    function animateOnScroll() {
-      const y = window.scrollY;
-      const orbitRotation = y * 0.12;
-      const wordOffset = y * 2;
+    function cacheScrollGeometry() {
+      isMobileViewport = mobileQuery.matches;
+      reduceMotion = reduceMotionQuery.matches;
 
-      if (orbit) {
-        orbit.style.transform = `translate(-50%, -50%) rotate(${orbitRotation}deg)`;
+      if (heroRight) {
+        const rect = heroRight.getBoundingClientRect();
+        const sectionTop = rect.top + window.scrollY;
+        const sectionHeight = rect.height;
+        orbitGeometry = {
+          start: sectionTop - window.innerHeight,
+          distance: Math.max(1, sectionHeight + window.innerHeight)
+        };
       }
 
       if (heroBgWord) {
-        heroBgWord.style.transform = `translateX(calc(-50% + ${wordOffset}px))`;
+        const start = heroBgWord.offsetTop - window.innerHeight * 0.85;
+        const end = heroBgWord.offsetTop + heroBgWord.offsetHeight - window.innerHeight * 0.15;
+        marqueeGeometry = {
+          start,
+          distance: Math.max(1, end - start),
+          maxTravel: Math.max(0, heroBgWord.scrollWidth - window.innerWidth + 32)
+        };
+      }
+
+      syncServiceAccordion();
+      requestScrollUpdate();
+    }
+
+    function setServiceCardState(card, isOpen) {
+      const button = card.querySelector(".service-toggle");
+      const panel = card.querySelector(".service-panel");
+
+      card.classList.toggle("is-open", isOpen);
+
+      if (button) {
+        button.setAttribute("aria-expanded", String(isOpen));
+      }
+
+      if (panel) {
+        panel.setAttribute("aria-hidden", String(!isOpen));
+      }
+    }
+
+    function openServiceCard(selectedCard) {
+      serviceCards.forEach((card) => {
+        setServiceCardState(card, card === selectedCard);
+      });
+    }
+
+    function syncServiceAccordion() {
+      if (serviceCards.length === 0) {
+        return;
+      }
+
+      if (!isMobileViewport) {
+        serviceCards.forEach((card) => {
+          setServiceCardState(card, true);
+        });
+        return;
+      }
+
+      const openCard = serviceCards.find((card) => card.classList.contains("is-open")) || serviceCards[0];
+      openServiceCard(openCard);
+    }
+
+    function updateProjectIndicator() {
+      projectScrollFrame = null;
+
+      if (!projectsCarousel || !projectCarouselCurrent || projectCards.length === 0) {
+        return;
+      }
+
+      const carouselLeft = projectsCarousel.getBoundingClientRect().left;
+      let activeIndex = 0;
+      let closestDistance = Infinity;
+
+      projectCards.forEach((card, index) => {
+        const distance = Math.abs(card.getBoundingClientRect().left - carouselLeft);
+
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          activeIndex = index;
+        }
+      });
+
+      projectCarouselCurrent.textContent = String(activeIndex + 1);
+    }
+
+    function requestProjectIndicatorUpdate() {
+      if (projectScrollFrame === null) {
+        projectScrollFrame = window.requestAnimationFrame(updateProjectIndicator);
+      }
+    }
+
+    function animateOnScroll(y) {
+      const orbitProgress = Math.min(1, Math.max(0, (y - orbitGeometry.start) / orbitGeometry.distance));
+      const orbitRotation = reduceMotion ? 0 : orbitProgress * ORBIT_ROTATION_DEGREES;
+
+      if (phoneStage && isMobileViewport) {
+        phoneStage.style.transform = "translate3d(-50%, -50%, 0)";
+      }
+
+      orbitRotators.forEach((rotator) => {
+        rotator.style.setProperty("--orbit-rotation", `${orbitRotation}deg`);
+        rotator.style.transform = `translateZ(0) rotate(${orbitRotation}deg)`;
+      });
+
+      if (heroBgWord) {
+        if (isMobileViewport) {
+          const marqueeProgress = Math.min(1, Math.max(0, (y - marqueeGeometry.start) / marqueeGeometry.distance));
+          const wordOffset = reduceMotion ? 0 : marqueeProgress * -marqueeGeometry.maxTravel;
+          heroBgWord.style.setProperty("--word-offset", `${wordOffset}px`);
+        } else {
+          heroBgWord.style.setProperty("--word-offset", `${y * 2}px`);
+        }
       }
     }
 
@@ -1295,17 +1999,62 @@
       });
     }
 
-    function handleScroll() {
-      animateOnScroll();
+    function updateScrollFrame() {
+      scrollFrame = null;
+      animateOnScroll(latestScrollY);
       revealOnScroll();
-      animateBackground();
+      animateBackground(latestScrollY);
     }
 
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("load", handleScroll);
+    function requestScrollUpdate() {
+      if (scrollFrame === null) {
+        scrollFrame = window.requestAnimationFrame(updateScrollFrame);
+      }
+    }
+
+    function handleScroll() {
+      latestScrollY = window.scrollY;
+      requestScrollUpdate();
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("load", () => {
+      latestScrollY = window.scrollY;
+      cacheScrollGeometry();
+    });
+    window.addEventListener("resize", cacheScrollGeometry);
+    window.addEventListener("orientationchange", cacheScrollGeometry);
+    reduceMotionQuery.addEventListener("change", cacheScrollGeometry);
+
+    if (projectsCarousel) {
+      projectsCarousel.addEventListener("scroll", requestProjectIndicatorUpdate, { passive: true });
+      window.addEventListener("load", requestProjectIndicatorUpdate);
+      window.addEventListener("resize", requestProjectIndicatorUpdate);
+    }
+
+    serviceCards.forEach((card) => {
+      const button = card.querySelector(".service-toggle");
+
+      if (!button) {
+        return;
+      }
+
+      button.addEventListener("click", () => {
+        if (!isMobileViewport) {
+          return;
+        }
+
+        openServiceCard(card);
+      });
+    });
 
     if (phoneStage && phoneCard) {
       phoneStage.addEventListener("mousemove", (event) => {
+        if (!isMobileViewport) {
+          phoneCard.style.transform = "translateY(-4px)";
+          return;
+        }
+
         const rect = phoneStage.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
@@ -1318,7 +2067,9 @@
       });
 
       phoneStage.addEventListener("mouseleave", () => {
-        phoneCard.style.transform = "rotateX(0deg) rotateY(0deg) translateY(0px)";
+        phoneCard.style.transform = isMobileViewport
+          ? "rotateX(0deg) rotateY(0deg) translateY(0px)"
+          : "translateY(0px)";
       });
     }
   </script>

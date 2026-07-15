@@ -1,12 +1,10 @@
 # MK Media Management
 
-**Live website:** Add live website URL here
-
-**Website screenshot:** Add website screenshot here
+**Live website:** (https://www.mediamkmanagement.com)
 
 ## Overview
 
-MK Media Management is a business website presenting the company's media and creative services. The site introduces the brand, highlights service offerings, showcases visual media work, and provides a contact form for new client inquiries.
+MK Media Management is a social media marketing website presenting the company's media and creative services. The site introduces the brand, highlights service offerings, showcases visual media work, and provides a contact form for new client inquiries, all while being user-friendly and easy to navigate so potential clients don't have a hard time understanding how to submit an inquiry.
 
 This repository contains the original website baseline before additional mobile-responsive improvements are added.
 
@@ -42,7 +40,7 @@ This repository contains the original website baseline before additional mobile-
 
 ## Project Status
 
-Baseline version prepared for GitHub. The original website is being added first so future updates, including mobile-responsive improvements, can be tracked clearly.
+Complete and live.
 
 ## Notes
 
